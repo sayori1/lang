@@ -5,9 +5,13 @@
 #include "lexer.h"
 #include "ast.h"
 
+
+
 typedef struct{
     Lexer* lexer;
 } Parser;
+
+AST* expr(Parser* parser);
 
 AST* factor(Parser* parser){
     Lexer* lexer = parser->lexer;
@@ -15,6 +19,12 @@ AST* factor(Parser* parser){
         Token token = lexer->current;
         eat(lexer, INTEGER);
         return createNum((int)token.value);
+    }
+    if(lexer->current.type == PARB){
+        eat(lexer, PARB);
+        AST* ast = expr(parser);
+        eat(lexer, PARE);
+        return ast;
     }
 }
 

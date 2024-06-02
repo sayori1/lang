@@ -10,7 +10,7 @@
 
 
 int main() {
-    Lexer lexer = createLexer("2*2+2");
+    Lexer lexer = createLexer("(2+43 + (3+4 * (454+334+ 12))");
 
     Parser parser = {&lexer};
 
