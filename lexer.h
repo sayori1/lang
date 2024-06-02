@@ -105,58 +105,69 @@ void eat(Lexer* intr, enum TYPE type){
     }
 }
 
-int factor(Lexer* intr){
-    if(intr->current.type == PARB){
-        eat(intr, PARB);
-        int v = expr(intr);
-        eat(intr, PARE);
-        return v;
-    }
+Lexer createLexer(char* text){
+    Lexer* lexer = (Lexer*)(malloc(sizeof(Lexer)));
+    lexer->text = text;
 
-    Token token = intr->current;
-    eat(intr, INTEGER);
+    lexer->currentCh = lexer->text[0];
+    lexer->pos = 0;
+    lexer->current = getNextToken(lexer);
 
-    return (int) token.value;
+    return *lexer;
 }
 
-int term(Lexer* intr){
-    int v = factor(intr);
-
-    while(intr->current.type == MUL || intr->current.type == DIV){
-        if(intr->current.type == MUL){
-            eat(intr, MUL);
-            v *= factor(intr);
-        }
-        else if(intr->current.type == DIV){
-            eat(intr, DIV);
-            v /= factor(intr);
-        }
-    }
-
-    return v;
-}
-
-int expr(Lexer* intr){
-    if(intr->pos == 0){
-        intr->currentCh = intr->text[0];
-        intr->current = getNextToken(intr);
-    }
-
-
-    int v = term(intr);
-
-    while(intr->current.type == PLUS || intr->current.type == MINUS){
-        if(intr->current.type == PLUS){
-            eat(intr, PLUS);
-            v += term(intr);
-        }
-        else if(intr->current.type == MINUS){
-            eat(intr, MINUS);
-            v -= term(intr);
-        }
-    }
-
-    return v;
+//int factor(Lexer* intr){
+//    if(intr->current.type == PARB){
+//        eat(intr, PARB);
+//        int v = expr(intr);
+//        eat(intr, PARE);
+//        return v;
+//    }
+//
+//    Token token = intr->current;
+//    eat(intr, INTEGER);
+//
+//    return (int) token.value;
+//}
+//
+//int term(Lexer* intr){
+//    int v = factor(intr);
+//
+//    while(intr->current.type == MUL || intr->current.type == DIV){
+//        if(intr->current.type == MUL){
+//            eat(intr, MUL);
+//            v *= factor(intr);
+//        }
+//        else if(intr->current.type == DIV){
+//            eat(intr, DIV);
+//            v /= factor(intr);
+//        }
+//    }
+//
+//    return v;
+//}
+//
+//int expr(Lexer* intr){
+//    if(intr->pos == 0){
+//        intr->currentCh = intr->text[0];
+//        intr->current = getNextToken(intr);
+//    }
+//
+//
+//    int v = term(intr);
+//
+//    while(intr->current.type == PLUS || intr->current.type == MINUS){
+//        if(intr->current.type == PLUS){
+//            eat(intr, PLUS);
+//            v += term(intr);
+//        }
+//        else if(intr->current.type == MINUS){
+//            eat(intr, MINUS);
+//            v -= term(intr);
+//        }
+//    }
+//
+//    return v;
 
 //    Token left = intr->current;
 //    eat(intr, INTEGER);
@@ -186,7 +197,7 @@ int expr(Lexer* intr){
 //    }
 //
 //    return result;
-}
+//}
 
 
 #endif //UNTITLED4_LEXER_H

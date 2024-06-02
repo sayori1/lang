@@ -5,16 +5,16 @@
 #include "str_utils.h"
 #include "lexer.h"
 #include "ast.h"
+#include "parser.h"
 
 
 int main() {
-    Lexer intr = {"(2+2 - (21 * 21 + (3+4) + (5+4 + (54 + 1)))) * 2 ", 0};
+    Lexer lexer = createLexer("2*2+2");
 
-    int v = expr(&intr);
+    Parser parser = {&lexer};
+    AST* ast = expr(&parser);
 
-    AST ast = createAST();
-    printf(ast.toString(&ast));
+    printf(ast->toString(ast));
 
-    printf("%d", v);
     return 0;
 }

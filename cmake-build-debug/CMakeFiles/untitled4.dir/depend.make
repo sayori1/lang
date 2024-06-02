@@ -4,6 +4,7 @@
 CMakeFiles/untitled4.dir/main.c.obj: ../ast.h
 CMakeFiles/untitled4.dir/main.c.obj: ../lexer.h
 CMakeFiles/untitled4.dir/main.c.obj: ../main.c
+CMakeFiles/untitled4.dir/main.c.obj: ../parser.h
 CMakeFiles/untitled4.dir/main.c.obj: ../str_utils.h
 CMakeFiles/untitled4.dir/main.c.obj: ../token.h
 
