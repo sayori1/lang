@@ -5,7 +5,7 @@
 #include "str_utils.h"
 
 
-enum TYPE {INTEGER = 0, PLUS = 1, MINUS = 2, MUL=3, DIV=4, END = 5};
+enum TYPE {INTEGER = 0, PLUS = 1, MINUS = 2, MUL=3, DIV=4, PARB = 5, PARE = 6, END = 7};
 
 typedef struct{
     enum TYPE type;
@@ -81,6 +81,18 @@ Token getNextToken(Interpreter* intr){
             return token;
         }
 
+        else if(intr->currentCh == '('){
+            advance(intr);
+            Token token = {PARB, '('};
+            return token;
+        }
+
+        else if(intr->currentCh == ')'){
+            advance(intr);
+            Token token = {PARE, ')'};
+            return token;
+        }
+
     }
 
     Token token = {END, NULL};
@@ -88,8 +100,6 @@ Token getNextToken(Interpreter* intr){
 }
 
 void eat(Interpreter* intr, enum TYPE type){
-
-
     if(intr->current.type == type){
         intr->current = getNextToken(intr);
     }
@@ -101,15 +111,21 @@ void eat(Interpreter* intr, enum TYPE type){
 }
 
 int factor(Interpreter* intr){
+    if(intr->current.type == PARB){
+        eat(intr, PARB);
+        int v = expr(intr);
+        eat(intr, PARE);
+        return v;
+    }
+
     Token token = intr->current;
     eat(intr, INTEGER);
+
     return (int) token.value;
 }
 
 int term(Interpreter* intr){
     int v = factor(intr);
-
-
 
     while(intr->current.type == MUL || intr->current.type == DIV){
         if(intr->current.type == MUL){
@@ -126,8 +142,11 @@ int term(Interpreter* intr){
 }
 
 int expr(Interpreter* intr){
-    intr->currentCh = intr->text[0];
-    intr->current = getNextToken(intr);
+    if(intr->pos == 0){
+        intr->currentCh = intr->text[0];
+        intr->current = getNextToken(intr);
+    }
+
 
     int v = term(intr);
 
@@ -176,7 +195,7 @@ int expr(Interpreter* intr){
 
 
 int main() {
-    Interpreter intr = {"  2 * 2 + 2 ", 0};
+    Interpreter intr = {"(2+2 - (21 * 21 + (3+4) + (5+4 + (54 + 1)))) * 2 ", 0};
 
     int v = expr(&intr);
 
