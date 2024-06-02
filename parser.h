@@ -58,4 +58,9 @@ AST* expr(Parser* parser){
     return left;
 }
 
+AST* parse(Parser* parser){
+    return expr(parser);
+}
+
+
 #endif //UNTITLED4_PARSER_H

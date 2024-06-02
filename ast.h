@@ -12,21 +12,25 @@ typedef struct AST {
     char* (*toString)(struct AST* self);
 } AST;
 
-typedef struct {
-    AST base;
-    int value;
-} Num;
-
-typedef struct {
-    AST base;
-    AST* left;
-    AST* right;
-    enum TYPE op;
-} BinOp;
 
 char* astToString(AST* self) {
     return "Basic AST";
 }
+
+AST* createAST() {
+    AST* ast = (AST*)malloc(sizeof(AST));
+    if (ast) {
+        ast->type = NONE;
+        ast->toString = astToString;
+    }
+    return ast;
+}
+
+
+typedef struct {
+    AST base;
+    int value;
+} Num;
 
 char* numToString(AST* self) {
     Num* num = (Num*)self;
@@ -36,6 +40,23 @@ char* numToString(AST* self) {
     }
     return result;
 }
+
+Num* createNum(int value) {
+    Num* num = (Num*)malloc(sizeof(Num));
+    if (num) {
+        num->base.type = NUM;
+        num->base.toString = numToString;
+        num->value = value;
+    }
+    return num;
+}
+
+typedef struct {
+    AST base;
+    AST* left;
+    AST* right;
+    enum TYPE op;
+} BinOp;
 
 char* binOpToString(AST* self) {
     BinOp* binOp = (BinOp*)self;
@@ -48,25 +69,6 @@ char* binOpToString(AST* self) {
     free(leftStr);
     free(rightStr);
     return result;
-}
-
-AST* createAST() {
-    AST* ast = (AST*)malloc(sizeof(AST));
-    if (ast) {
-        ast->type = NONE;
-        ast->toString = astToString;
-    }
-    return ast;
-}
-
-Num* createNum(int value) {
-    Num* num = (Num*)malloc(sizeof(Num));
-    if (num) {
-        num->base.type = NUM;
-        num->base.toString = numToString;
-        num->value = value;
-    }
-    return num;
 }
 
 BinOp* createBinOp(AST* left, AST* right, enum TYPE op) {

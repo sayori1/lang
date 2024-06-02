@@ -6,15 +6,18 @@
 #include "lexer.h"
 #include "ast.h"
 #include "parser.h"
+#include "interpreter.h"
 
 
 int main() {
     Lexer lexer = createLexer("2*2+2");
 
     Parser parser = {&lexer};
-    AST* ast = expr(&parser);
 
-    printf(ast->toString(ast));
+    Interpeter intr = {&parser};
+
+    printf("%d", run(&intr));
+
 
     return 0;
 }
