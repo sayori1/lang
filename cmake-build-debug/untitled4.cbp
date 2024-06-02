@@ -76,10 +76,22 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/ast.h">
+			<Option target="untitled4"/>
+		</Unit>
+		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/lexer.h">
+			<Option target="untitled4"/>
+		</Unit>
 		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/main.c">
 			<Option target="untitled4"/>
 		</Unit>
+		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/parser.h">
+			<Option target="untitled4"/>
+		</Unit>
 		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/str_utils.h">
+			<Option target="untitled4"/>
+		</Unit>
+		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/token.h">
 			<Option target="untitled4"/>
 		</Unit>
 		<Unit filename="C:/Users/almetoff/CLionProjects/untitled4/CMakeLists.txt">

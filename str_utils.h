@@ -1,10 +1,11 @@
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
 #ifndef UNTITLED4_STR_UTILS_H
 #define UNTITLED4_STR_UTILS_H
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 char* appendCharDynamic(char *str, char ch) {
     size_t len = strlen(str);

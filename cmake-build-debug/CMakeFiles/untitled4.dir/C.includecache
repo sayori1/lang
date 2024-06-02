@@ -6,6 +6,20 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/almetoff/CLionProjects/untitled4/lexer.h
+stdio.h
+-
+string.h
+-
+ctype.h
+-
+stdlib.h
+-
+str_utils.h
+C:/Users/almetoff/CLionProjects/untitled4/str_utils.h
+token.h
+C:/Users/almetoff/CLionProjects/untitled4/token.h
+
 C:/Users/almetoff/CLionProjects/untitled4/main.c
 stdio.h
 -
@@ -17,6 +31,8 @@ stdlib.h
 -
 str_utils.h
 C:/Users/almetoff/CLionProjects/untitled4/str_utils.h
+lexer.h
+C:/Users/almetoff/CLionProjects/untitled4/lexer.h
 
 C:/Users/almetoff/CLionProjects/untitled4/str_utils.h
 stdio.h
@@ -25,4 +41,6 @@ string.h
 -
 stdlib.h
 -
+
+C:/Users/almetoff/CLionProjects/untitled4/token.h
 
