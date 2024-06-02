@@ -5,7 +5,7 @@
 #include "str_utils.h"
 
 
-enum TYPE {INTEGER = 0, PLUS = 1, MINUS = 2, END = 3};
+enum TYPE {INTEGER = 0, PLUS = 1, MINUS = 2, MUL=3, DIV=4, END = 5};
 
 typedef struct{
     enum TYPE type;
@@ -60,16 +60,24 @@ Token getNextToken(Interpreter* intr){
             Token token = {INTEGER, v};
             return token;
         }
-
-        if(intr->currentCh == '+'){
+        else if(intr->currentCh == '+'){
             advance(intr);
             Token token = {PLUS, '+'};
             return token;
         }
-
         else if(intr->currentCh == '-'){
             advance(intr);
             Token token = {MINUS, '-'};
+            return token;
+        }
+        else if(intr->currentCh == '*'){
+            advance(intr);
+            Token token = {MUL, '*'};
+            return token;
+        }
+        else if(intr->currentCh == '/'){
+            advance(intr);
+            Token token = {DIV, '/'};
             return token;
         }
 
@@ -80,18 +88,41 @@ Token getNextToken(Interpreter* intr){
 }
 
 void eat(Interpreter* intr, enum TYPE type){
+
+
     if(intr->current.type == type){
         intr->current = getNextToken(intr);
     }
     else{
+
+
         fprintf(stderr, "Unexpected token\n");
     }
 }
 
-int term(Interpreter* intr){
+int factor(Interpreter* intr){
     Token token = intr->current;
     eat(intr, INTEGER);
     return (int) token.value;
+}
+
+int term(Interpreter* intr){
+    int v = factor(intr);
+
+
+
+    while(intr->current.type == MUL || intr->current.type == DIV){
+        if(intr->current.type == MUL){
+            eat(intr, MUL);
+            v *= factor(intr);
+        }
+        else if(intr->current.type == DIV){
+            eat(intr, DIV);
+            v /= factor(intr);
+        }
+    }
+
+    return v;
 }
 
 int expr(Interpreter* intr){
@@ -145,7 +176,7 @@ int expr(Interpreter* intr){
 
 
 int main() {
-    Interpreter intr = {"  8 - 1 -1 + 1042  ", 0};
+    Interpreter intr = {"  2 * 2 + 2 ", 0};
 
     int v = expr(&intr);
 
