@@ -39,7 +39,8 @@ int integer(Interpreter* intr){
     char* buff = "";
 
     while(intr->currentCh != NULL && isdigit(intr->currentCh)){
-        buff = appendCharDynamic(buff, intr->currentCh);
+        buff = appendCharDynamic(buff,
+                intr->currentCh);
         advance(intr);
     }
 
@@ -83,48 +84,68 @@ void eat(Interpreter* intr, enum TYPE type){
         intr->current = getNextToken(intr);
     }
     else{
-        _strerror("WTF");
+        fprintf(stderr, "Unexpected token\n");
     }
+}
+
+int term(Interpreter* intr){
+    Token token = intr->current;
+    eat(intr, INTEGER);
+    return (int) token.value;
 }
 
 int expr(Interpreter* intr){
     intr->currentCh = intr->text[0];
-
     intr->current = getNextToken(intr);
 
-    Token left = intr->current;
-    eat(intr, INTEGER);
+    int v = term(intr);
 
-    Token op = intr->current;
-    if(op.type == PLUS)
-        eat(intr, PLUS);
-    else if(op.type == MINUS)
-        eat(intr, MINUS);
-
-    Token right = intr->current;
-    eat(intr, INTEGER);
-
-
-
-    int leftV = (int)(left.value);
-    int rightV = (int)(right.value);
-
-    int result = 0;
-
-
-    if(op.type == PLUS){
-        result = leftV + rightV;
-    }
-    else{
-        result = leftV - rightV;
+    while(intr->current.type == PLUS || intr->current.type == MINUS){
+        if(intr->current.type == PLUS){
+            eat(intr, PLUS);
+            v += term(intr);
+        }
+        else if(intr->current.type == MINUS){
+            eat(intr, MINUS);
+            v -= term(intr);
+        }
     }
 
-    return result;
+    return v;
+
+//    Token left = intr->current;
+//    eat(intr, INTEGER);
+//
+//    Token op = intr->current;
+//    if(op.type == PLUS)
+//        eat(intr, PLUS);
+//    else if(op.type == MINUS)
+//        eat(intr, MINUS);
+//
+//    Token right = intr->current;
+//    eat(intr, INTEGER);
+//
+//
+//
+//    int leftV = (int)(left.value);
+//    int rightV = (int)(right.value);
+//
+//    int result = 0;
+//
+//
+//    if(op.type == PLUS){
+//        result = leftV + rightV;
+//    }
+//    else{
+//        result = leftV - rightV;
+//    }
+//
+//    return result;
 }
 
 
 int main() {
-    Interpreter intr = {"  8 - 1  ", 0};
+    Interpreter intr = {"  8 - 1 -1 + 1042  ", 0};
 
     int v = expr(&intr);
 
