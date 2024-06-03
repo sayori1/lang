@@ -18,6 +18,12 @@ int main() {
 
     printf("%d", run(&intr));
 
+    AST* c = createUnaryOp(PLUS, createAST());
+
+    char* result = unaryOpToString(c);
+    //printf(result);
+    //printf();
+
 
     return 0;
 }
